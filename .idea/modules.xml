@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/Pycharm JECRC.iml" filepath="$PROJECT_DIR$/.idea/Pycharm JECRC.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/Projects PyCharm.iml" filepath="$PROJECT_DIR$/.idea/Projects PyCharm.iml" />
+>>>>>>> f171a710fab06eb4992c235456252909446d0bf9
     </modules>
   </component>
 </project>
