@@ -1,0 +1,460 @@
+{
+  "info": {
+    "_postman_id": "7abf6ac9-f01d-44ae-9751-89d4f13f3d5b",
+    "name": "Pet Store",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53805747",
+    "_collection_link": "https://go.postman.co/collection/53805747-7abf6ac9-f01d-44ae-9751-89d4f13f3d5b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "store",
+      "item": [
+        {
+          "name": "Get inventories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://petstore.swagger.io/v2/store/inventory",
+              "protocol": "https",
+              "host": [
+                "petstore",
+                "swagger",
+                "io"
+              ],
+              "path": [
+                "v2",
+                "store",
+                "inventory"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Place an order for pet",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 666,\r\n  \"petId\": 304,\r\n  \"quantity\": 5,\r\n  \"shipDate\": \"2026-04-07T07:43:55.253Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\": true\r\n}\r\n\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_uel}}/store/order",
+              "host": [
+                "{{base_uel}}"
+              ],
+              "path": [
+                "store",
+                "order"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Find purchase order by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Body matches string\", function () {\r",
+                  "    pm.expect(pm.response.text()).to.include(\"666\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response time is less than 200ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+                  "});\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 666,\r\n  \"petId\": 304,\r\n  \"quantity\": 5,\r\n  \"shipDate\": \"2026-04-07T07:43:55.253Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\": true\r\n}\r\n\r\n"
+            },
+            "url": {
+              "raw": "{{base_uel}}/store/order/666",
+              "host": [
+                "{{base_uel}}"
+              ],
+              "path": [
+                "store",
+                "order",
+                "666"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete order by id",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 666,\r\n  \"petId\": 304,\r\n  \"quantity\": 5,\r\n  \"shipDate\": \"2026-04-07T07:43:55.253Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\": true\r\n}\r\n\r\n"
+            },
+            "url": {
+              "raw": "{{base_uel}}/store/order/666",
+              "host": [
+                "{{base_uel}}"
+              ],
+              "path": [
+                "store",
+                "order",
+                "666"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "pet",
+      "item": [
+        {
+          "name": "New pet to store",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(5);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Body matches string\", function () {\r",
+                  "    pm.expect(pm.response.text()).to.include(\"neko\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response time is less than 200ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 5,\r\n  \"category\": {\r\n    \"id\": 5,\r\n    \"name\": \"neko\"\r\n  },\r\n  \"name\": \"doggie\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 5,\r\n      \"name\": \"neko\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}\r\n\r\n"
+            },
+            "url": {
+              "raw": "{{base_uel}}/pet",
+              "host": [
+                "{{base_uel}}"
+              ],
+              "path": [
+                "pet"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update an existing pet",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 5,\r\n  \"category\": {\r\n    \"id\": 5,\r\n    \"name\": \"neko\"\r\n  },\r\n  \"name\": \"doggie\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 5,\r\n      \"name\": \"neko\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}\r\n\r\n"
+            },
+            "url": {
+              "raw": "{{base_uel}}/pet",
+              "host": [
+                "{{base_uel}}"
+              ],
+              "path": [
+                "pet"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Find pets by status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_uel}}/pet/findByStatus?status=available",
+              "host": [
+                "{{base_uel}}"
+              ],
+              "path": [
+                "pet",
+                "findByStatus"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "available"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Find pet by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 666,\r\n  \"petId\": 304,\r\n  \"quantity\": 5,\r\n  \"shipDate\": \"2026-04-07T07:43:55.253Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\": true\r\n}\r\n\r\n"
+            },
+            "url": {
+              "raw": "{{base_uel}}/pet/5",
+              "host": [
+                "{{base_uel}}"
+              ],
+              "path": [
+                "pet",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Updates the pet from store with form data",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "neko",
+                  "type": "text",
+                  "uuid": "5d267006-52f8-46de-bf06-38a79da043cc"
+                },
+                {
+                  "key": "status",
+                  "value": "available",
+                  "type": "text",
+                  "uuid": "556f6ae5-7d02-4d75-8e8a-9b115b707a30"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_uel}}/pet/5",
+              "host": [
+                "{{base_uel}}"
+              ],
+              "path": [
+                "pet",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Uploads an image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "image/png",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "98876f9f-22ef-4597-b5d3-b7b79cb5f2a6",
+                  "src": "postman-cloud:///1f13268d-e97b-4d70-a86e-707fa6f80cfc"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_uel}}/pet/5/uploadImage",
+              "host": [
+                "{{base_uel}}"
+              ],
+              "path": [
+                "pet",
+                "5",
+                "uploadImage"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "user",
+      "item": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}

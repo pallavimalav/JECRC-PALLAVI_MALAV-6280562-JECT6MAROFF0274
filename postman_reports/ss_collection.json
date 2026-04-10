@@ -1,0 +1,1247 @@
+{
+  "info": {
+    "_postman_id": "a650f3e1-2f9d-4fed-8f01-cc8db24e557f",
+    "name": "Shopper Stack",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53805747",
+    "_collection_link": "https://go.postman.co/collection/53805747-a650f3e1-2f9d-4fed-8f01-cc8db24e557f?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "profile",
+      "item": [
+        {
+          "name": "Registers as a user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "let res = pm.response.json();\r",
+                  "\r",
+                  "let shopperID = res.data.userId;\r",
+                  "pm.environment.set(\"shopperID\", shopperID);\r",
+                  "\r",
+                  "let email = res.data.email;\r",
+                  "pm.environment.set(\"shopperEmail\", email);\r",
+                  "\r",
+                  "pm.environment.set(\"shopperPwd\", \"capybaratomatino\");\r",
+                  "\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"city\": \"Jaipur\",\r\n  \"country\": \"India\",\r\n  \"email\": \"tomatino@gmail.com\",\r\n  \"firstName\": \"Capybara\",\r\n  \"gender\": \"MALE\",\r\n  \"lastName\": \"Tomatino\",\r\n  \"password\": \"capybaratomatino\",\r\n  \"phone\": 9123456789,\r\n  \"state\": \"RJ\",\r\n  \"zoneId\": \"ALPHA\"\r\n}\r\n\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers?zoneid=ALPHA",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers"
+              ],
+              "query": [
+                {
+                  "key": "zoneid",
+                  "value": "ALPHA"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Shopper Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "let res = pm.response.jason();\r",
+                  "\r",
+                  "let token = res.data.jwtToken;\r",
+                  "pm.environment.set(\"jwtToken\", token);\r",
+                  "\r",
+                  "pm.test(\"validate schema\", function(){\r",
+                  "    const schema = {\r",
+                  "        type = \"object\",\r",
+                  "        properties:{\r",
+                  "    \"statusCode\":{type = \"number\"},\r",
+                  "    \"message\": {type = \"string\"},\r",
+                  "    \"data\": {\r",
+                  "        \"userId\": 384534,\r",
+                  "        \"email\": \"capybara@gmail.com\",\r",
+                  "        \"role\": \"SHOPPER\",\r",
+                  "        \"status\": \"ACTIVE\",\r",
+                  "        \"createdDateTime\": null,\r",
+                  "        \"firstName\": \"Capybara\",\r",
+                  "        \"lastName\": \"Tomatino\",\r",
+                  "        \"city\": \"Banglore\",\r",
+                  "        \"state\": \"Karnataka\",\r",
+                  "        \"country\": \"India\",\r",
+                  "        \"zoneId\": \"ALPHA\",\r",
+                  "        \"imageId\": null,\r",
+                  "        \"jwtToken\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYXB5YmFyYUBnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTc1MDg1MCwiaWF0IjoxNzc1NzE0ODUwfQ.Us5JHENsCV8vLj0X64h2f49r1vZfwrSh4dYzOO-UZVE\"\r",
+                  "    }\r",
+                  "        }\r",
+                  "    }\r",
+                  "})\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"{{shopperEmail}}\",\r\n  \"password\": \"{{shopperPwd}}\",\r\n  \"role\": \"SHOPPER\"\r\n}\r\n\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/users/login",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Shopper data by shopperid",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b21hdGlub0BnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTgzMzgzMSwiaWF0IjoxNzc1Nzk3ODMxfQ.dFnHXi5oXCX64CfG3kAWu_4cMd09cIuTFGi-5IgbM88",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"data\": {\r\n    \"city\": \"string\",\r\n    \"country\": \"string\",\r\n    \"createdDateTime\": \"2026-04-09T09:24:43.051Z\",\r\n    \"dob\": \"string\",\r\n    \"email\": \"string\",\r\n    \"firstName\": \"string\",\r\n    \"gender\": \"string\",\r\n    \"imageId\": \"string\",\r\n    \"jwtToken\": \"string\",\r\n    \"lastName\": \"string\",\r\n    \"password\": \"string\",\r\n    \"phone\": \"string\",\r\n    \"role\": \"ADMIN\",\r\n    \"state\": \"string\",\r\n    \"status\": \"ACTIVE\",\r\n    \"token\": \"string\",\r\n    \"zoneId\": \"string\"\r\n  },\r\n  \"message\": \"string\",\r\n  \"statusCode\": 0\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/384776",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "384776"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updates shopper details",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b21hdGlub0BnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTgzMzgzMSwiaWF0IjoxNzc1Nzk3ODMxfQ.dFnHXi5oXCX64CfG3kAWu_4cMd09cIuTFGi-5IgbM88",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"city\": \"Goa\",\r\n  \"country\": \"India\",\r\n  \"email\": \"capybara@gmail.com\",\r\n  \"firstName\": \"Taehyung\",\r\n  \"gender\": \"MALE\",\r\n  \"lastName\": \"Chan\",\r\n  \"password\": \"capybaratomatino\",\r\n  \"phone\": 9123456789,\r\n  \"state\": \"New Delhi\",\r\n  \"zoneId\": \"ALPHA\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/384534",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "384534"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "product view action",
+      "item": [
+        {
+          "name": "returns all default products",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"data\": [\r\n    {\r\n      \"brand\": \"string\",\r\n      \"category\": \"string\",\r\n      \"createdDateTime\": \"2026-04-09T09:40:46.224Z\",\r\n      \"description\": \"string\",\r\n      \"merchantId\": 0,\r\n      \"name\": \"string\",\r\n      \"offer\": 0,\r\n      \"price\": 0,\r\n      \"productId\": 0,\r\n      \"productImageURLs\": [\r\n        \"string\"\r\n      ],\r\n      \"quantity\": 0,\r\n      \"rating\": 0,\r\n      \"reviews\": [\r\n        {\r\n          \"dateTime\": \"2026-04-09T09:40:46.224Z\",\r\n          \"description\": \"string\",\r\n          \"heading\": \"string\",\r\n          \"rating\": 0,\r\n          \"shopperId\": 0,\r\n          \"shopperName\": \"string\"\r\n        }\r\n      ],\r\n      \"searchTags\": [\r\n        \"string\"\r\n      ],\r\n      \"status\": \"ACTIVE\",\r\n      \"thumbnailURL\": \"string\",\r\n      \"title\": \"string\",\r\n      \"type\": \"string\",\r\n      \"zoneId\": \"string\"\r\n    }\r\n  ],\r\n  \"message\": \"string\",\r\n  \"statusCode\": 0\r\n}   ",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/products/alpha",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "products",
+                "alpha"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "address",
+      "item": [
+        {
+          "name": "get all address",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b21hdGlub0BnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTgzMzgzMSwiaWF0IjoxNzc1Nzk3ODMxfQ.dFnHXi5oXCX64CfG3kAWu_4cMd09cIuTFGi-5IgbM88",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/address",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "address"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add a new address",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "let res = pm.response.json();\r",
+                  "\r",
+                  "pm.environment.set(\"addressID\", res.data.addressId);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwtToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"addressId\": 5,\r\n  \"buildingInfo\": \"Atlantic Tower\",\r\n  \"city\": \"banglore\",\r\n  \"country\": \"India\",\r\n  \"landmark\": \"Near modi tea stall\",\r\n  \"name\": \"NekoChan\",\r\n  \"phone\": \"9876543219\",\r\n  \"pincode\": \"560010\",\r\n  \"state\": \"Karnataka\",\r\n  \"streetInfo\": \"Near modi tea stall\",\r\n  \"type\": \"string\"\r\n}\r\n\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/address",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "address"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get a particular address by addressid",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYXB5YmFyYUBnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTc2Mjg2MywiaWF0IjoxNzc1NzI2ODYzfQ.6JeqYklNNCCZM9Sq85_MABM-cfPmPe5qXhZJUlL1v1c",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"addressId\": 5,\r\n  \"buildingInfo\": \"Horizon Tower\",\r\n  \"city\": \"banglore\",\r\n  \"country\": \"India\",\r\n  \"landmark\": \"Near modi tea stall\",\r\n  \"name\": \"NekoChan\",\r\n  \"phone\": \"9123456789\",\r\n  \"pincode\": \"560010\",\r\n  \"state\": \"Karnataka\",\r\n  \"streetInfo\": \"Near modi tea stall\",\r\n  \"type\": \"string\"\r\n}\r\n\r\n"
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/address/{{addressID}}",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "address",
+                "{{addressID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update an added address",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYXB5YmFyYUBnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTc2Mjg2MywiaWF0IjoxNzc1NzI2ODYzfQ.6JeqYklNNCCZM9Sq85_MABM-cfPmPe5qXhZJUlL1v1c",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"addressId\": 153168,\r\n  \"buildingInfo\": \"Modi Tower\",\r\n  \"city\": \"banglore\",\r\n  \"country\": \"string\",\r\n  \"landmark\": \"string\",\r\n  \"name\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"pincode\": \"560010\",\r\n  \"state\": \"string\",\r\n  \"streetInfo\": \"string\",\r\n  \"type\": \"string\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/address/{{addressID}}",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "address",
+                "{{addressID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete an address",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYXB5YmFyYUBnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTc2Mjg2MywiaWF0IjoxNzc1NzI2ODYzfQ.6JeqYklNNCCZM9Sq85_MABM-cfPmPe5qXhZJUlL1v1c",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/address/{{addressID}}",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "address",
+                "{{addressID}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "wishlist",
+      "item": [
+        {
+          "name": "get all products from wishlist",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b21hdGlub0BnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTgzMzgzMSwiaWF0IjoxNzc1Nzk3ODMxfQ.dFnHXi5oXCX64CfG3kAWu_4cMd09cIuTFGi-5IgbM88",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/wishlist",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "wishlist"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add a product to wishlist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "let res = pm.response.json();\r",
+                  "\r",
+                  "pm.environment.set(\"productId\", res.data.productId);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b21hdGlub0BnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTgzMzgzMSwiaWF0IjoxNzc1Nzk3ODMxfQ.dFnHXi5oXCX64CfG3kAWu_4cMd09cIuTFGi-5IgbM88",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"productId\": 101,\r\n  \"quantity\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/wishlist",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "wishlist"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete a product from wishlist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b21hdGlub0BnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTgzMzgzMSwiaWF0IjoxNzc1Nzk3ODMxfQ.dFnHXi5oXCX64CfG3kAWu_4cMd09cIuTFGi-5IgbM88",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"data\": \"string\",\r\n  \"message\": \"string\",\r\n  \"statusCode\": 0\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/wishlist/{{productId}}",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "wishlist",
+                "{{productId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "cart",
+      "item": [
+        {
+          "name": "get all the products from cart",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b21hdGlub0BnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTgzMzgzMSwiaWF0IjoxNzc1Nzk3ODMxfQ.dFnHXi5oXCX64CfG3kAWu_4cMd09cIuTFGi-5IgbM88",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"productId\": 101,\r\n  \"quantity\": 1\r\n}"
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/carts",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add a new product to the cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "let res = pm.response.json();\r",
+                  "\r",
+                  "pm.environment.set(\"itemId\", res.data.itemId);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b21hdGlub0BnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTgzMzgzMSwiaWF0IjoxNzc1Nzk3ODMxfQ.dFnHXi5oXCX64CfG3kAWu_4cMd09cIuTFGi-5IgbM88",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"productId\": 93,\r\n  \"quantity\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/carts",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add a product in the cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b21hdGlub0BnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTgzMzgzMSwiaWF0IjoxNzc1Nzk3ODMxfQ.dFnHXi5oXCX64CfG3kAWu_4cMd09cIuTFGi-5IgbM88",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"productId\": 4265,\r\n  \"quantity\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/carts/{{itemId}}",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "carts",
+                "{{itemId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete a product from the cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b21hdGlub0BnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTgzMzgzMSwiaWF0IjoxNzc1Nzk3ODMxfQ.dFnHXi5oXCX64CfG3kAWu_4cMd09cIuTFGi-5IgbM88",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"data\": [\r\n    {\r\n      \"productId\": 93,\r\n      \"quantity\": 1\r\n    }\r\n  ],\r\n  \"message\": \"string\",\r\n  \"statusCode\": 0\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/carts/{{productId}}",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "carts",
+                "{{productId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "order",
+      "item": [
+        {
+          "name": "display order history",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b21hdGlub0BnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTgzMzgzMSwiaWF0IjoxNzc1Nzk3ODMxfQ.dFnHXi5oXCX64CfG3kAWu_4cMd09cIuTFGi-5IgbM88",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"productId\": 93,\r\n  \"quantity\": 1\r\n}"
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/orders",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "place order from cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b21hdGlub0BnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTgzMzgzMSwiaWF0IjoxNzc1Nzk3ODMxfQ.dFnHXi5oXCX64CfG3kAWu_4cMd09cIuTFGi-5IgbM88",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"address\": {\r\n  \"addressId\": {{addressID}},\r\n  \"buildingInfo\": \"Atlantic Tower\",\r\n  \"city\": \"banglore\",\r\n  \"country\": \"India\",\r\n  \"landmark\": \"Near modi tea stall\",\r\n  \"name\": \"NekoChan\",\r\n  \"phone\": \"9876543219\",\r\n  \"pincode\": \"560010\",\r\n  \"state\": \"Karnataka\",\r\n  \"streetInfo\": \"Near modi tea stall\",\r\n  \"type\": \"string\"\r\n},\r\n  \"paymentMode\": \"COD\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/orders",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update order status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "let res = pm.response.json();\r",
+                  "\r",
+                  "pm.environment.set(\"transcationID\", res.data.transcationId);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b21hdGlub0BnbWFpbC5jb20gU0hPUFBFUiIsImV4cCI6MTc3NTgzMzgzMSwiaWF0IjoxNzc1Nzk3ODMxfQ.dFnHXi5oXCX64CfG3kAWu_4cMd09cIuTFGi-5IgbM88",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"data\": {\r\n    \"actualPrice\": 0,\r\n    \"address\": {\r\n      \"addressId\": {{addressID}},\r\n    \"buildingInfo\": \"Atlantic Tower\",\r\n    \"city\": \"banglore\",\r\n    \"country\": \"India\",\r\n    \"landmark\": \"Near modi tea stall\",\r\n    \"name\": \"NekoChan\",\r\n    \"phone\": \"9876543219\",\r\n    \"pincode\": \"560010\",\r\n    \"state\": \"Karnataka\",\r\n    \"streetInfo\": \"Near modi tea stall\",\r\n    \"type\": \"string\"\r\n    },\r\n    \"deliveredDate\": \"2026-04-10T06:59:27.434Z\",\r\n    \"discountPrice\": 0,\r\n    \"lastModifiedDate\": \"2026-04-10T06:59:27.434Z\",\r\n    \"orderDate\": \"2026-04-10T06:59:27.434Z\",\r\n    \"orderId\": {{orderId}},\r\n    \"orderStatus\": \"IN_TRANSIT\",\r\n    \"orderedItems\": [\r\n      {\r\n        \"productId\": {{productId}},\r\n        \"quantity\": 1\r\n      }\r\n    ],\r\n    \"paymentMode\": \"COD\",\r\n    \"shopperId\": {{shopperID}},\r\n    \"totalPrice\": 0,\r\n    \"transactionId\": 5\r\n  },\r\n  \"message\": \"order status updated!\",\r\n  \"statusCode\": 0\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/orders/{{orderId}}?status=DELIVERED",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "orders",
+                "{{orderId}}"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "DELIVERED"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "generate invoice copy",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwtToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseurl}}/shoppers/{{shopperID}}/orders/{{orderId}}/invoice",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperID}}",
+                "orders",
+                "{{orderId}}",
+                "invoice"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "product review",
+      "item": [
+        {
+          "name": "add a review to delivered product",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwtToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"dateTime\": \"2026-04-10T07:10:40.019Z\",\r\n  \"description\": \"decent product\",\r\n  \"heading\": \"product review\",\r\n  \"rating\": 4,\r\n  \"shopperId\": {{shopperID}},\r\n  \"shopperName\": \"NekoChan\"\r\n}\r\n\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/reviews?productId={{productId}}",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "reviews"
+              ],
+              "query": [
+                {
+                  "key": "productId",
+                  "value": "{{productId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all the reviews of the product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseurl}}/reviews/{{productId}}",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "reviews",
+                "{{productId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update an added review",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwtToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"dateTime\": \"2026-04-10T07:16:58.343Z\",\r\n  \"description\": \"not wokring after 3 weeks\",\r\n  \"heading\": \"bad service\",\r\n  \"rating\": 0,\r\n  \"shopperId\": {{shopperID}},\r\n  \"shopperName\": \"NekoChan\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/reviews/{{reviewId}}?productId={{productId}}",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "reviews",
+                "{{reviewId}}"
+              ],
+              "query": [
+                {
+                  "key": "productId",
+                  "value": "{{productId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete an added review",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwtToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"data\": \"string\",\r\n  \"message\": \"oops wrote under wrong product hehehehe\",\r\n  \"statusCode\": 0\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/reviews/{{reviewId}}?productId={{productId}}&reviewId={{reviewId}}",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "reviews",
+                "{{reviewId}}"
+              ],
+              "query": [
+                {
+                  "key": "productId",
+                  "value": "{{productId}}"
+                },
+                {
+                  "key": "reviewId",
+                  "value": "{{reviewId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
